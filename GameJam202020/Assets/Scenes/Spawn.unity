@@ -234,11 +234,12 @@ MonoBehaviour:
   totalEnemy: 10
   numEnemy: 0
   score: 0
+  timeLeft: 5
+  displayText: {fileID: 132402283}
   Spawn: 1
   spawnType: 2
   spawnPoints: []
   waveTimer: 2
-  totalWaves: 10
 --- !u!4 &211985424
 Transform:
   m_ObjectHideFlags: 0

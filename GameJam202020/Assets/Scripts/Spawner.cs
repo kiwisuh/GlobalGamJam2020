@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -25,127 +26,68 @@ public class Spawner : MonoBehaviour
 	public int numEnemy = 0;
 	private int spawnedEnemy = 0;
 	public int score = 0;
-
+	public float timeLeft = 5.0f;
+	public Text displayText;
 	//private int SpawnID;
 
 	private bool waveSpawn = false;
-	public bool Spawn = true;
+	public bool Spawn = false;
 	public SpawnTypes spawnType = SpawnTypes.Normal;
 	public GameObject[] spawnPoints;
 
 	public float waveTimer = 30.0f;
 	private float timeTillWave = 0.0f;
 	//Wave controls
-	public int totalWaves = 5;
+	//public int totalWaves = 5;
 	private int numWaves = 0;
 
 	void Start()
 	{
 
-		//SpawnID = Random.Range(1, 500);
-		//EasyEnemy = Instantiate(Resources.Load("Prefabs/Enemy", typeof(GameObject))) as GameObject;
 		Instantiate(EasyEnemy);
+		spawnType = SpawnTypes.Wave;
 	}
 
-	void OnDrawGizmos()
-	{
-
-		Gizmos.color = gizmoColor;
-
-		Gizmos.DrawCube(transform.position, new Vector3 (0.5f,0.5f,0.5f));
-	}
 	void Update ()
 	{
+		timeLeft -= Time.deltaTime;
+		print("time left: " + timeLeft);
+		displayText.text = "CountDown: " + timeLeft.ToString("F0");
+		if(timeLeft <= 0){
+			print("start the game!");
+			displayText.text = "Start!";
+			Spawn = true;
+		}else{
+			Spawn = false;
+		}
+
 		if(Spawn)
 		{
-			if (spawnType == SpawnTypes.Normal)
-			{
-				// if(numEnemy < totalEnemy)
-				// {
-				// 	spawnEnemy();
-				// }
-				// if(numEnemy == 0){
-				// 	spawnEnemy();
-				// }
+			displayText.text = "Round " + rounds.ToString();
+			if (waveSpawn){
+				spawnEnemy();
 			}
-			// Spawns enemies only once
-			// else if (spawnType == SpawnTypes.Once)
-			// {
-			// 	// checks to see if the overall spawned num of enemies is more or equal to the total to be spawned
-			// 	if(spawnedEnemy >= totalEnemy)
-			// 	{
-			// 		//sets the spawner to false
-			// 		Spawn = false;
-			// 	}
-			// 	else
-			// 	{
-			// 		// spawns an enemy
-			// 		spawnEnemy();
-			// 	}
-			// }
-			else if (spawnType == SpawnTypes.Wave)
-			{
-				if(numWaves < totalWaves + 1)
-				{
-					if (waveSpawn)
-					{
-
-						spawnEnemy();
-					}
-					if (numEnemy == 0)
-					{
-
-						waveSpawn = true;
-						rounds++;
-						totalEnemy+=10;
-					}
-					if(numEnemy == totalEnemy)
-					{
-
-						waveSpawn = false;
-					}
-				}
+			if (numEnemy == 0){
+				waveSpawn = true;
+				rounds++;
+				totalEnemy+=10;
 			}
-			// else if(spawnType == SpawnTypes.TimedWave)
-			// {
-			//
-			// 	if(numWaves <= totalWaves)
-			// 	{
-			// 		// Increases the timer to allow the timed waves to work
-			// 		timeTillWave += Time.deltaTime;
-			// 		if (waveSpawn)
-			// 		{
-			// 			//spawns an enemy
-			// 			spawnEnemy();
-			// 		}
-			// 		// checks if the time is equal to the time required for a new wave
-			// 		if (timeTillWave >= waveTimer)
-			// 		{
-			// 			// enables the wave spawner
-			// 			waveSpawn = true;
-			// 			// sets the time back to zero
-			// 			timeTillWave = 0.0f;
-			// 			// increases the number of waves
-			// 			numWaves++;
-			// 			// A hack to get it to spawn the same number of enemies regardless of how many have been killed
-			// 			numEnemy = 0;
-			// 		}
-			// 		if(numEnemy >= totalEnemy)
-			// 		{
-			// 			// diables the wave spawner
-			// 			waveSpawn = false;
-			// 		}
-			// 	}
-			// 	else
-			// 	{
-			// 		Spawn = false;
-			// 	}
-			// }
+			if(numEnemy == totalEnemy){
+				waveSpawn = false;
+			}
+
 		}
 
 		if(Input.GetKeyDown(KeyCode.W)){
 			killEnemy();
 		}
+	}
+	private void countSpawn(){
+		//waveSpawn = true;
+		rounds++;
+		totalEnemy+=10;
+		Spawn = false;
+		timeLeft = 5.0f;
 	}
 	// spawns an enemy based on the enemy level that you selected
 	private void spawnEnemy()

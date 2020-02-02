@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Creator.cs" />
      <Compile Include="Assets\Scripts\Cube.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Fire.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\NewEnemy.cs" />
      <Compile Include="Assets\Scripts\NewNewEnemy.cs" />
