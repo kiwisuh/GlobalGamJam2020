@@ -63,13 +63,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AttackObj.cs" />
+    <Compile Include="Assets\Scripts\AttackObjEnemy.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\DieWithNoChildren.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\FaceCamera.cs" />
+    <Compile Include="Assets\Scripts\Manager.cs" />
+    <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\PlacedBox.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Projectile.cs" />
     <Compile Include="Assets\Scripts\Rotate.cs" />
+    <Compile Include="Assets\Scripts\Scrap.cs" />
     <Compile Include="Assets\Tanks\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Tanks\Scripts\Managers\TankManager.cs" />
     <Compile Include="Assets\Tanks\Scripts\Shell\ShellExplosion.cs" />

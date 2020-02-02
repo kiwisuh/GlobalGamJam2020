@@ -10,14 +10,20 @@ public class Player : MonoBehaviour
     private float health;
     public Image healthBar;
 
+    public Text[] playerScrap;
+
     public GameObject renderObj;
     private Vector3 startPos;
 
+    public GameObject[] gunObj;
     bool isDead = false;
 
     public int scrap;
     public int levelUpPrice;
     public int modPrice;
+    private int levelChecked;
+    private float lastTimeLevelUp;
+    public float levelCooldown;
 
     public int playerNumber = 1;
     public float speed;
@@ -93,7 +99,7 @@ public class Player : MonoBehaviour
         lastTimeGunFired = Time.time - gunCooldown;
         gunDisable = false;
         damageBoost = 1;
-
+        
         if (playerNumber == 1)
         {
             mode = PlayerMode.Creator;
@@ -110,12 +116,13 @@ public class Player : MonoBehaviour
         {
             mode = PlayerMode.Modder;
         }
+        gunObj[playerNumber - 1].SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        playerScrap[playerNumber-1].text = "Player " + playerNumber + ": " + scrap;
         //Get input names
         movementInput.z = -Input.GetAxis(moveXAxisName);
         movementInput.x = Input.GetAxis(moveYAxisName);
@@ -145,7 +152,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        print(interactInput);
+        //print(interactInput);
         //make sure they aint dead
         if (isDisabled)
         {
@@ -164,20 +171,33 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             mode = PlayerMode.Creator;
+            gunObj[0].SetActive(true);
+            gunObj[1].SetActive(false);
+            gunObj[2].SetActive(false);
+            gunObj[3].SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-
+            gunObj[0].SetActive(false);
+            gunObj[1].SetActive(true);
+            gunObj[2].SetActive(false);
+            gunObj[3].SetActive(false);
             mode = PlayerMode.Healer;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-
+            gunObj[0].SetActive(false);
+            gunObj[1].SetActive(false);
+            gunObj[2].SetActive(true);
+            gunObj[3].SetActive(false);
             mode = PlayerMode.Engineer;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-
+            gunObj[0].SetActive(false);
+            gunObj[1].SetActive(false);
+            gunObj[2].SetActive(false);
+            gunObj[3].SetActive(true);
             mode = PlayerMode.Modder;
         }
 
@@ -343,6 +363,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void LevelReturn(int level)
+    {
+        levelChecked = level;
+    }
+
+    public void LevelMeUp(GameObject obj)
+    {
+        if(levelChecked != 3)
+        {
+            scrap -= levelUpPrice;
+            obj.SendMessage("LevelUp");
+        }
+    }
+
     public void Damage(float amount)
     {
         health -= amount;
@@ -354,6 +388,8 @@ public class Player : MonoBehaviour
             isDead = true;
             isDisabled = true;
             renderObj.SetActive(false);
+            transform.position = Vector3.zero;
+            transform.tag = "DeadPlayer";
             //DestroyObject();
         }
     }
@@ -365,13 +401,16 @@ public class Player : MonoBehaviour
 
     public void Respawn()
     {
-        transform.position = startPos;
-        health = startHealth;
-        isDead = false;
-        isDisabled = false;
-        renderObj.SetActive(true);
-        healthBar.fillAmount = health / startHealth;
-
+        if (isDead)
+        {
+            transform.position = startPos;
+            health = startHealth;
+            isDead = false;
+            isDisabled = false;
+            renderObj.SetActive(true);
+            healthBar.fillAmount = health / startHealth;
+            gameObject.tag = "Player";
+        }
     }
 
     private void OnTriggerStay(Collider col)
@@ -380,12 +419,12 @@ public class Player : MonoBehaviour
         {
             col.gameObject.SendMessage("ToggleTriangle", true);
 
-            if (interactInput && scrap > levelUpPrice)
+            if (Input.GetButtonDown(interactName) && scrap > levelUpPrice && Time.time - lastTimeLevelUp > levelCooldown)
             {
                 if (col.tag == "Object" || col.tag == "Beacon")
                 {
-                    scrap -= levelUpPrice;
-                    col.gameObject.SendMessage("LevelUp");
+                    lastTimeLevelUp = Time.time;
+                    col.gameObject.SendMessage("ReturnLevel", gameObject);
                 }
             }
         }

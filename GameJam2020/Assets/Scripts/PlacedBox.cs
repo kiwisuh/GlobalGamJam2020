@@ -21,6 +21,7 @@ public class PlacedBox : MonoBehaviour
     public GameObject stillObj1;
     public GameObject stillObj2;
 
+
     private CapsuleCollider capCol;
 
     public GameObject currentObj;
@@ -44,6 +45,8 @@ public class PlacedBox : MonoBehaviour
     //Turret
     public GameObject projectile;
     public Transform gun;
+    public Transform gun1;
+    public Transform gun2;
     public float gunDamage;
     public float gunDamageIncrease;
     public float turretCooldown;
@@ -57,6 +60,7 @@ public class PlacedBox : MonoBehaviour
     //beaconbomb
     public float explosionRadius;
     public float explosionDamage;
+    public float explisionDamageIncrease;
 
     //buff
     public float buffLength;
@@ -70,6 +74,10 @@ public class PlacedBox : MonoBehaviour
     private float lastTimeHealed;
     public float healCooldown;
     public float healCooldownDecrease;
+
+    //beacon damage
+    public float beaconDamage = 0;
+    public float beaconDamageIncrease;
 
     // Start is called before the first frame update
     void Start()
@@ -95,7 +103,9 @@ public class PlacedBox : MonoBehaviour
             DetectClosest("Enemy");
             if (active)
             {
+                Vector3 saveValues = transform.eulerAngles;
                 this.transform.LookAt(closestEnemyPos);
+                transform.eulerAngles = new Vector3(saveValues.x, transform.eulerAngles.y, saveValues.z);
                 stillObj1.transform.eulerAngles = Vector3.zero;
                 stillObj2.transform.eulerAngles = Vector3.zero;
                 if (Time.time - timeLastShot > turretCooldown)
@@ -133,7 +143,7 @@ public class PlacedBox : MonoBehaviour
 
     public void Heal(float amount)
     {
-        health += amount;
+        health += amount*level;
         if (health > startHealth)
         {
             health = startHealth;
@@ -262,9 +272,23 @@ public class PlacedBox : MonoBehaviour
     {
         if (mode == Mode.Turret)
         {
-            GameObject laserFired = Instantiate(projectile, gun.position, Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up));
-            laserFired.SendMessage("SetType", "bullet");
-            laserFired.SendMessage("DamageInput", gunDamage);
+            if(level < 3)
+            {
+
+                GameObject laserFired = Instantiate(projectile, gun.position, Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up));
+                laserFired.SendMessage("SetType", "bullet");
+                laserFired.SendMessage("DamageInput", gunDamage);
+            }
+            else
+            {
+                GameObject laserFired1 = Instantiate(projectile, gun1.position, Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up));
+                laserFired1.SendMessage("SetType", "bullet");
+                laserFired1.SendMessage("DamageInput", gunDamage);
+
+                GameObject laserFired2 = Instantiate(projectile, gun2.position, Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up));
+                laserFired2.SendMessage("SetType", "bullet");
+                laserFired2.SendMessage("DamageInput", gunDamage);
+            }
         }
         else if (mode == Mode.PulseTurret)
         {
@@ -290,13 +314,34 @@ public class PlacedBox : MonoBehaviour
         }
     }
 
+    public void ReturnLevel(GameObject obj)
+    {
+        obj.SendMessage("LevelReturn", level);
+        obj.SendMessage("LevelMeUp", gameObject);
+    }
+
+    public void GetHit(GameObject obj)
+    {
+        if (mode == Mode.Beacon)
+        {
+            obj.SendMessage("Damage", beaconDamage);
+        }
+    }
+
     public void LevelUp()
     {
         
         if (level != 3)
         {
             
-            level++;
+            if(level == 1)
+            {
+                level = 2;
+            }
+            else if (level == 2)
+            {
+                level = 3;
+            }
             //health
             //heal amount, heal time, buff amount, buff time, damage, shoot speed, 
             healAmount *= healAmountIncrease;
@@ -304,10 +349,14 @@ public class PlacedBox : MonoBehaviour
             buffLength += buffLengthIncrease;
             buffDamage *= buffDamageIncrease;
             gunDamage *= gunDamageIncrease;
+            beaconDamage += beaconDamageIncrease;
+            explosionDamage += explisionDamageIncrease;
             health += (healthIncrease *(level-1));
             startHealth += (healthIncrease * (level - 1));
             ChooseSkin();
-            
+            healthBar.fillAmount = health / startHealth;
+
+
         }
 
     }
@@ -320,7 +369,7 @@ public class PlacedBox : MonoBehaviour
         {
             for (int i = 0; i < hitColliders.Length; i++)
             {
-                if (hitColliders[i].gameObject.tag == name)
+                if (hitColliders[i].gameObject.tag == "Enemy")
                 {
                     hitColliders[i].gameObject.SendMessage("Damage", explosionDamage);
                 }
