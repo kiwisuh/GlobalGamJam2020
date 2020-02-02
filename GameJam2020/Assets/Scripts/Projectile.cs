@@ -61,7 +61,11 @@ public class Projectile : MonoBehaviour
     {
         if (col.transform.tag == "Enemy")
         {
-            //DestroyObject();
+            if(mode != Mode.Sawblade)
+            {
+                DestroyObject();
+            }
+            
             col.SendMessage("Damage", damage);
         }
         else
@@ -69,6 +73,11 @@ public class Projectile : MonoBehaviour
             //DestroyObject();
         }
        
+    }
+
+    public void DamageInput(float dmg)
+    {
+        damage = dmg;
     }
 
 
@@ -87,7 +96,7 @@ public class Projectile : MonoBehaviour
         else if(type == "nail")
         {
             lifetime = nailLifetime;
-            mode = Mode.Sawblade;
+            mode = Mode.Nail;
         }
         else if(type == "bullet")
         {
