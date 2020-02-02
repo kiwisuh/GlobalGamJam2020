@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 55
+  controlID: 61
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -94,8 +94,8 @@ MonoBehaviour:
     y: 0
     width: 348
     height: 330
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 60
+  controlID: 66
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 61
+  controlID: 67
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -338,20 +338,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefab
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefab
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\heewo\Documents\GameJam202020
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a04a0000
-    m_LastClickedID: 19104
-    m_ExpandedIDs: 0000000086330000803b000000ca9a3b
+    m_SelectedIDs: 98340000
+    m_LastClickedID: 13464
+    m_ExpandedIDs: 000000007a34000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -379,7 +379,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000086330000
+    m_ExpandedIDs: 000000007a340000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -504,21 +504,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 1676ffff9e9effff44a2ffff12a6ffff20f5ffffd8faffff72fbffff1c350000
+      m_ExpandedIDs: 36f9fffff2fafffffcfaffff14fbffff6cfbffff72fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Cube
-        m_OriginalName: Cube
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 13596
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 4}
       m_SearchString: 
@@ -564,9 +564,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.4299188, y: 2.722365, z: -0.42980057}
+    m_Target: {x: 22.393072, y: 3.9754777, z: -29.279093}
     speed: 2
-    m_Value: {x: 2.4299188, y: 2.722365, z: -0.42980057}
+    m_Value: {x: 22.393072, y: 3.9754777, z: -29.279093}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -612,13 +612,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.049173288, y: 0.112717755, z: -0.005584545, w: -0.99239594}
+    m_Target: {x: -0.36413175, y: -0.06000343, z: 0.023548178, w: -0.9291401}
     speed: 2
-    m_Value: {x: -0.049173187, y: 0.112717524, z: -0.005584534, w: -0.9923939}
+    m_Value: {x: -0.364123, y: -0.060001984, z: 0.023547612, w: -0.92911774}
   m_Size:
-    m_Target: 4.95877
+    m_Target: 53.128223
     speed: 2
-    m_Value: 4.95877
+    m_Value: 53.128223
   m_Ortho:
     m_Target: 0
     speed: 2

@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Beacon
+  - Object
+  - Tower
+  - Spawner
+  - Ground
   layers:
   - Default
   - TransparentFX
